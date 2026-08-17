@@ -1,3 +1,12 @@
-# Único arquivo de configuração local (não commitar)
+# Dependências — nunca versionar, reinstale com `npm install`.
+node_modules/
+
+# Variáveis de ambiente e segredos locais.
 .env
-.env.test
+.env.*
+!.env.*.example
+serviceAccountKey.json
+
+# Sistema operacional / editores.
+.DS_Store
+Thumbs.db
