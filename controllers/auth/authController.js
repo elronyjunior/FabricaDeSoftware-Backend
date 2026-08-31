@@ -60,6 +60,68 @@ exports.login = async (req, res) => {
   }
 };
 
+// Cadastro público (Seu código existente não tinha isso — só login/google-login)
+exports.register = async (req, res) => {
+  try {
+    const nome = String(req.body.nome || '').trim();
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const senha = req.body.senha;
+    const telefone = req.body.telefone || null;
+
+    if (!nome || !email || !senha) {
+      return res.status(400).json({ message: 'Nome, email e senha são obrigatórios.' });
+    }
+
+    const existente = await pool.query(
+      'SELECT id FROM usuarios WHERE LOWER(email) = $1',
+      [email]
+    );
+    if (existente.rows[0]) {
+      return res.status(409).json({ message: 'Já existe uma conta com este email.' });
+    }
+
+    // Nível padrão para autocadastro (mesmo valor que usuariosController.js
+    // já usa como default — precisa ser um valor válido do enum nivel_usuario:
+    // USUARIO | MASTER | ADMINISTRADOR).
+    const nivelPadrao = 'USUARIO';
+    const insertQuery = `
+      INSERT INTO usuarios (nome, email, senha, nivel, telefone)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `;
+    const insertResult = await pool.query(insertQuery, [nome, email, senha, nivelPadrao, telefone]);
+    const usuario = insertResult.rows[0];
+
+    const token = jwt.sign(
+      {
+        id: usuario.id,
+        email: usuario.email,
+        nivel: usuario.nivel
+      },
+      SECRET_KEY,
+      { expiresIn: "24h" }
+    );
+
+    res.status(201).json({
+      token,
+      usuario: {
+        id: parseInt(usuario.id),
+        nome: usuario.nome,
+        email: usuario.email,
+        nivel: usuario.nivel
+      }
+    });
+
+  } catch (error) {
+    // Corrida rara: dois cadastros com o mesmo email passando pelo check acima ao mesmo tempo.
+    if (error.code === '23505') {
+      return res.status(409).json({ message: 'Já existe uma conta com este email.' });
+    }
+    console.error('Erro no cadastro:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // --- FUNÇÃO GOOGLE LOGIN (CORRIGIDA) ---
 exports.googleLogin = async (req, res) => {
   // O 'googleIdToken' aqui é na verdade o Token de ID do FIREBASE
@@ -83,7 +145,10 @@ exports.googleLogin = async (req, res) => {
     // 3. Se usuário não existe, crie-o (com senha nula)
     if (!usuario) {
       console.log(`Criando novo usuário para: ${email}`);
-      const nivelPadrao = 'colaborador';
+      // Precisa ser um valor válido do enum nivel_usuario (USUARIO | MASTER |
+      // ADMINISTRADOR) — 'colaborador' não existe no banco e quebrava o
+      // autoprovisionamento de contas novas via Google Login.
+      const nivelPadrao = 'USUARIO';
       const insertQuery = `
         INSERT INTO usuarios (nome, email, senha, nivel, telefone) 
         VALUES ($1, $2, $3, $4, $5) 

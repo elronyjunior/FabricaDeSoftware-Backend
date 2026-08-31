@@ -31,6 +31,7 @@ app.use(express.json());
 
 // Rotas de autenticação
 app.post("/api/auth/login", authController.login);
+app.post("/api/auth/register", authController.register);
 app.post("/api/auth/refresh", authController.refresh);
 app.post("/api/auth/google-login", authController.googleLogin);
 
