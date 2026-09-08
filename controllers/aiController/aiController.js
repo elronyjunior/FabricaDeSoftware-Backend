@@ -1,11 +1,19 @@
 const pool = require('../../db');
 const googleDocsService = require('../../service/googleDocsService');
-const { chatJson } = require('../../service/ai/claudeService');
+const { chatJson, chatJsonConversation } = require('../../service/ai/claudeService');
+const { renderMermaidToPng } = require('../../service/ai/mermaidRenderService');
 const { createJob, updateJob, getJob } = require('../../service/ai/jobStore');
+const { createSession, getSession, appendTurns } = require('../../service/ai/chatSessionStore');
 const { validarSecao } = require('../../service/documentos/validarConteudoDocumento');
+const { salvarDocumentoMermaid } = require('../../service/documentos/salvarDocumentoMermaid');
 const {
   buildRequisitosPrompt,
+  CHAT_REQUISITOS_SYSTEM,
+  buildTurnoChatRequisitos,
+  buildCasoDeUsoPrompt,
+  buildTurnoRefinamentoDiagrama,
   buildDocumentoPrompt,
+  buildDocumentoMermaidPrompt,
   formatRequisitoForApi,
   buildRetrabalhoPrompt,
   buscarSecaoPorCaminho,
@@ -79,6 +87,179 @@ exports.gerarRequisitos = async (req, res) => {
   } catch (error) {
     console.error('Erro IA Requisitos:', error);
     res.status(500).json({ error: error.message || 'Falha na IA ao gerar requisitos' });
+  }
+};
+
+// Chat com memória sobre a lista de requisitos. Diferente do diagrama, aqui
+// todo turno (o primeiro incluído) já é uma mensagem de chat - não existe
+// separação entre "gerar" e "refinar", então um único endpoint decide se
+// cria uma sessão nova (sem sessionId válido) ou continua uma existente.
+// Reenvia a lista atual de requisitos a cada turno (ver
+// buildTurnoChatRequisitos) em vez de confiar só na memória da sessão: a
+// pessoa pode editar manualmente na tela entre uma mensagem e outra.
+exports.chatRequisitos = async (req, res) => {
+  try {
+    const { sessionId, mensagem, nomeProjeto, escopo } = req.body;
+    const requisitosAtuais = Array.isArray(req.body.requisitosAtuais) ? req.body.requisitosAtuais : [];
+
+    if (!mensagem?.trim()) {
+      return res.status(400).json({ error: 'mensagem é obrigatória.' });
+    }
+
+    const sessaoExistente = sessionId ? getSession(sessionId) : null;
+
+    const turnoUsuario = {
+      role: 'user',
+      content: buildTurnoChatRequisitos({
+        mensagem: mensagem.trim(),
+        nomeProjeto: nomeProjeto || 'Novo Projeto',
+        escopo,
+        requisitosAtuais,
+      }),
+    };
+
+    const historico = sessaoExistente ? [...sessaoExistente.messages, turnoUsuario] : [turnoUsuario];
+
+    const data = await chatJsonConversation({
+      system: CHAT_REQUISITOS_SYSTEM,
+      messages: historico,
+      temperature: 0.5,
+      maxTokens: 6000,
+    });
+
+    const turnoAssistente = { role: 'assistant', content: JSON.stringify(data) };
+
+    let sessionIdFinal = sessionId;
+    if (sessaoExistente) {
+      appendTurns(sessionId, [turnoUsuario, turnoAssistente]);
+    } else {
+      sessionIdFinal = createSession({ system: CHAT_REQUISITOS_SYSTEM, messages: [turnoUsuario, turnoAssistente] });
+    }
+
+    res.json({
+      sessionId: sessionIdFinal,
+      resposta_chat: data.resposta_chat || null,
+      requisitos: (data.requisitos || []).map(formatRequisitoForApi),
+    });
+  } catch (error) {
+    console.error('Erro IA Chat Requisitos:', error);
+    res.status(500).json({ error: error.message || 'Falha na IA ao conversar sobre requisitos' });
+  }
+};
+
+// Stateless: gera só um diagrama de casos de uso (Mermaid + SVG) a partir de
+// requisitos ainda em memória no wizard do frontend - não recebe projetoId,
+// não lê/grava nada no banco e não cria Google Doc. "Por enquanto" isso é só
+// preview visual durante a criação do projeto (ver plano da feature).
+exports.gerarDiagramaCasoDeUso = async (req, res) => {
+  try {
+    const { nomeProjeto, escopo } = req.body;
+    const requisitos = Array.isArray(req.body.requisitos) ? req.body.requisitos : [];
+
+    if (requisitos.length === 0) {
+      return res.status(400).json({ error: 'Ao menos um requisito é necessário para gerar o diagrama.' });
+    }
+
+    const prompt = buildCasoDeUsoPrompt({
+      nomeProjeto: nomeProjeto || 'Novo Projeto',
+      escopo,
+      requisitos,
+    });
+
+    const data = await chatJson({
+      system: prompt.system,
+      user: prompt.user,
+      temperature: prompt.temperature,
+      maxTokens: prompt.maxTokens,
+    });
+
+    let imagem_base64 = null;
+    let aviso_renderizacao = null;
+    try {
+      imagem_base64 = await renderMermaidToPng(data.mermaid);
+    } catch (renderError) {
+      console.error('Erro ao renderizar Mermaid via mermaid.ink:', renderError);
+      aviso_renderizacao = 'Não foi possível renderizar o diagrama visualmente agora. O código Mermaid ainda está disponível abaixo.';
+    }
+
+    // Sessão de conversa: semeada com o prompt original + a resposta da IA,
+    // pra qualquer pedido de ajuste (refinarDiagramaCasoUso) já nascer com
+    // esse contexto sem precisar reexplicar nada.
+    const sessionId = createSession({
+      system: prompt.system,
+      messages: [
+        { role: 'user', content: prompt.user },
+        { role: 'assistant', content: JSON.stringify(data) },
+      ],
+    });
+
+    res.json({
+      sessionId,
+      resposta_chat: data.resposta_chat || null,
+      titulo: data.titulo || `Diagrama de Casos de Uso - ${nomeProjeto || 'Projeto'}`,
+      atores: data.atores || [],
+      mermaid: data.mermaid,
+      imagem_base64,
+      aviso_renderizacao,
+    });
+  } catch (error) {
+    console.error('Erro IA Diagrama de Casos de Uso:', error);
+    res.status(500).json({ error: error.message || 'Falha na IA ao gerar o diagrama de casos de uso' });
+  }
+};
+
+// Pede um ajuste específico sobre um diagrama já gerado nesta sessão de
+// conversa (ver createSession acima) - reenvia o histórico completo pro
+// Claude (é assim que ele "lembra", já que não tem sessão própria) mais um
+// turno novo com a instrução. Sessão desconhecida/expirada: erro claro,
+// pedindo pra gerar de novo, em vez de tentar adivinhar um contexto.
+exports.refinarDiagramaCasoUso = async (req, res) => {
+  try {
+    const { sessionId, instrucao } = req.body;
+
+    if (!sessionId) {
+      return res.status(400).json({ error: 'sessionId é obrigatório.' });
+    }
+
+    const sessao = getSession(sessionId);
+    if (!sessao) {
+      return res.status(400).json({
+        error: 'Sessão expirada ou não encontrada. Clique em "Gerar novamente" para começar um novo diagrama.',
+      });
+    }
+
+    const turnoUsuario = { role: 'user', content: buildTurnoRefinamentoDiagrama(instrucao) };
+
+    const data = await chatJsonConversation({
+      system: sessao.system,
+      messages: [...sessao.messages, turnoUsuario],
+      temperature: 0.4,
+      maxTokens: 4000,
+    });
+
+    appendTurns(sessionId, [turnoUsuario, { role: 'assistant', content: JSON.stringify(data) }]);
+
+    let imagem_base64 = null;
+    let aviso_renderizacao = null;
+    try {
+      imagem_base64 = await renderMermaidToPng(data.mermaid);
+    } catch (renderError) {
+      console.error('Erro ao renderizar Mermaid via mermaid.ink:', renderError);
+      aviso_renderizacao = 'Não foi possível renderizar o diagrama visualmente agora. O código Mermaid ainda está disponível abaixo.';
+    }
+
+    res.json({
+      sessionId,
+      resposta_chat: data.resposta_chat || null,
+      titulo: data.titulo,
+      atores: data.atores || [],
+      mermaid: data.mermaid,
+      imagem_base64,
+      aviso_renderizacao,
+    });
+  } catch (error) {
+    console.error('Erro IA Refinar Diagrama:', error);
+    res.status(500).json({ error: error.message || 'Falha na IA ao refinar o diagrama' });
   }
 };
 
@@ -196,8 +377,62 @@ async function processarGeracaoDocumento(jobId, { projetoId, tipoDocumento, titu
   });
 }
 
+// Formato "Diagrama Mermaid": mesma entrada (projeto + requisitos), mas em
+// vez de montar um Google Doc a partir de secoes/tabelas, pede um diagrama
+// Mermaid renderizado em PNG e grava direto no banco via
+// salvarDocumentoMermaid - sem Google Docs, por decisão de produto.
+async function processarGeracaoDocumentoMermaid(jobId, { projetoId, tipoDocumento, tituloDocumento, descricaoExtra }) {
+  updateJob(jobId, { stage: 'buscando_dados_do_projeto' });
+
+  const projetoQuery = await pool.query('SELECT * FROM projetos WHERE id = $1', [projetoId]);
+  const projeto = projetoQuery.rows[0];
+
+  if (!projeto) {
+    updateJob(jobId, { status: 'error', error: 'Projeto não encontrado' });
+    return;
+  }
+
+  const requisitos = await buscarRequisitosDoProjeto(projetoId);
+
+  const prompt = buildDocumentoMermaidPrompt({ projeto, tipoDocumento, tituloDocumento, descricaoExtra, requisitos });
+
+  updateJob(jobId, { stage: 'gerando_conteudo_com_ia' });
+  console.log('🤖 Gerando diagrama Mermaid com IA...');
+  const data = await chatJson({
+    system: prompt.system,
+    user: prompt.user,
+    temperature: prompt.temperature,
+    maxTokens: prompt.maxTokens,
+  });
+
+  updateJob(jobId, { stage: 'renderizando_diagrama' });
+  let imagemBase64 = null;
+  try {
+    imagemBase64 = await renderMermaidToPng(data.mermaid);
+  } catch (renderError) {
+    console.error('Erro ao renderizar Mermaid via mermaid.ink:', renderError);
+  }
+
+  updateJob(jobId, { stage: 'salvando_documento' });
+  const documento = await salvarDocumentoMermaid({
+    projetoId,
+    tipo: tipoDocumento,
+    titulo: data.titulo || tituloDocumento,
+    mermaid: data.mermaid,
+    imagemBase64,
+    atores: data.atores,
+  });
+
+  console.log('✅ Diagrama gerado e salvo!');
+
+  updateJob(jobId, {
+    status: 'done',
+    result: { message: 'Documento gerado com sucesso!', documento },
+  });
+}
+
 exports.gerarDocumentoIA = async (req, res) => {
-  const { projetoId, tipoDocumento, tituloDocumento, descricaoExtra } = req.body;
+  const { projetoId, tipoDocumento, tituloDocumento, descricaoExtra, formato } = req.body;
 
   if (!projetoId || !tipoDocumento || !tituloDocumento?.trim()) {
     return res.status(400).json({
@@ -208,12 +443,16 @@ exports.gerarDocumentoIA = async (req, res) => {
   const jobId = createJob();
   res.status(202).json({ jobId, status: 'processing' });
 
-  processarGeracaoDocumento(jobId, {
+  const parametros = {
     projetoId,
     tipoDocumento,
     tituloDocumento: tituloDocumento.trim(),
     descricaoExtra,
-  }).catch((error) => {
+  };
+
+  const processar = formato === 'mermaid' ? processarGeracaoDocumentoMermaid : processarGeracaoDocumento;
+
+  processar(jobId, parametros).catch((error) => {
     console.error('Erro ao gerar documento IA:', error);
     updateJob(jobId, { status: 'error', error: error.message || 'Falha na IA ao gerar documento' });
   });

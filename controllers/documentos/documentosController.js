@@ -1,6 +1,7 @@
 ﻿const pool = require("../../db");
 const googleDocsService = require("../../service/googleDocsService");
 const { validarConteudoDocumento } = require("../../service/documentos/validarConteudoDocumento");
+const { salvarDocumentoMermaid } = require("../../service/documentos/salvarDocumentoMermaid");
 
 // Colunas usadas nas listagens: exclui conteudo_json (pode ser um JSON grande
 // por documento) e expõe só se existe conteúdo editável, para não pesar o
@@ -90,6 +91,34 @@ exports.delete = async (req, res) => {
 
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Persistência pura (sem chamar IA) do diagrama de casos de uso já
+// gerado/revisado no wizard de criação de projeto - chamado uma vez, logo
+// depois que o projeto é criado (ver ApiService.criarProjetoCompleto no
+// frontend), salvando exatamente o que a pessoa já viu na tela.
+exports.salvarDiagramaMermaid = async (req, res) => {
+  try {
+    const { projetoId, tipo, titulo, mermaid, imagemBase64, atores } = req.body;
+
+    if (!projetoId || !mermaid?.trim() || !titulo?.trim()) {
+      return res.status(400).json({ message: "projetoId, titulo e mermaid são obrigatórios." });
+    }
+
+    const documento = await salvarDocumentoMermaid({
+      projetoId,
+      tipo: tipo || "Casos de Uso",
+      titulo,
+      mermaid,
+      imagemBase64,
+      atores,
+    });
+
+    res.status(201).json(documento);
+  } catch (error) {
+    console.error("Erro ao salvar diagrama Mermaid:", error);
     res.status(500).json({ error: error.message });
   }
 };

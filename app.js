@@ -93,6 +93,7 @@ app.delete("/api/contribuidores-projeto/:projetoId/:contribuidorId", authenticat
 // Documentos
 app.get("/api/documentos", authenticateToken, documentosController.index);
 app.post("/api/documentos", authenticateToken, documentosController.store);
+app.post("/api/documentos/diagrama-mermaid", authenticateToken, documentosController.salvarDiagramaMermaid);
 app.get("/api/documentos/projeto/:projetoId", authenticateToken, documentosController.byProjeto);
 app.get("/api/documentos/:id", authenticateToken, documentosController.show);
 app.put("/api/documentos/:id", authenticateToken, documentosController.update);
@@ -164,6 +165,9 @@ app.delete("/api/tecnologias-projeto/:projetoId/:tecnologiaId", authenticateToke
 // --- ROTAS IA ---
 app.post("/api/ai/estimar-orcamento", authenticateToken, require("./controllers/aiController/aiController").estimarOrcamento);
 app.post("/api/ai/gerar-requisitos", authenticateToken, require("./controllers/aiController/aiController").gerarRequisitos);
+app.post("/api/ai/chat-requisitos", authenticateToken, require("./controllers/aiController/aiController").chatRequisitos);
+app.post("/api/ai/gerar-diagrama-caso-uso", authenticateToken, require("./controllers/aiController/aiController").gerarDiagramaCasoDeUso);
+app.post("/api/ai/refinar-diagrama-caso-uso", authenticateToken, require("./controllers/aiController/aiController").refinarDiagramaCasoUso);
 app.post("/api/ai/gerar-documento", authenticateToken, require("./controllers/aiController/aiController").gerarDocumentoIA);
 app.get("/api/ai/gerar-documento/status/:jobId", authenticateToken, require("./controllers/aiController/aiController").statusJob);
 app.post("/api/ai/retrabalhar-secoes", authenticateToken, require("./controllers/aiController/aiController").retrabalharSecoes);

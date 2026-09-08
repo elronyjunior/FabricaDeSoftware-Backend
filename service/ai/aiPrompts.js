@@ -46,6 +46,139 @@ Regras:
   };
 }
 
+const CHAT_REQUISITOS_SYSTEM = `Você é um analista de requisitos sênior conversando em tempo real com a pessoa responsável pelo projeto para ajustar a lista de requisitos.
+Sempre responda em português do Brasil.
+Sua saída DEVE ser um JSON válido, sem markdown, sem comentários e sem texto fora do JSON.`;
+
+// Turno único usado tanto pra primeira mensagem do chat quanto pras
+// seguintes (diferente do diagrama, aqui não existe "gerar a partir de algo
+// pronto" separado de "conversar" - todo turno já é uma mensagem de chat).
+// Reenvia a lista ATUAL de requisitos a cada turno (não confia só na memória
+// da sessão): a pessoa pode editar manualmente na tela (aprovar, editar,
+// adicionar à mão) entre uma mensagem e outra, então a IA sempre parte do
+// estado real da tela; o histórico da conversa serve de contexto de
+// intenção, não de estado.
+function buildTurnoChatRequisitos({ mensagem, nomeProjeto, escopo, requisitosAtuais }) {
+  const listaAtual = (requisitosAtuais || []).length
+    ? requisitosAtuais.map((r, i) => `${i + 1}. [${r.tipo || 'Funcional'}] ${r.titulo}: ${r.descricao}`).join('\n')
+    : '(nenhum requisito cadastrado ainda)';
+
+  return `Projeto: "${nomeProjeto}"
+${escopo ? `Escopo: """${escopo}"""` : ''}
+
+LISTA ATUAL DE REQUISITOS (pode ter sido editada manualmente pela pessoa desde a última mensagem - use este estado, não o que você lembra de antes):
+${listaAtual}
+
+MENSAGEM DA PESSOA: ${mensagem}
+
+Aplique o que foi pedido (adicionar, editar, remover ou reorganizar requisitos - o que fizer sentido) e devolva a lista COMPLETA e atualizada (não só os alterados; requisitos não mencionados continuam exatamente como estão). Se o pedido for só uma pergunta, devolva a lista sem nenhuma mudança.
+
+Retorne EXCLUSIVAMENTE este JSON:
+{
+  "resposta_chat": "Frase curta (1 a 2 frases) contando o que você fez, para aparecer como sua fala num chat - não repita a lista inteira aqui.",
+  "requisitos": [
+    {
+      "codigo": "RF-001 ou RNF-001",
+      "titulo": "Título claro e específico",
+      "descricao": "Descrição completa, no mesmo padrão de detalhe de um documento de requisitos profissional.",
+      "tipo": "Funcional ou Não Funcional",
+      "prioridade": "Alta, Média ou Baixa"
+    }
+  ]
+}`;
+}
+
+const CASO_DE_USO_SYSTEM = `Você é um analista de sistemas sênior especializado em UML e na ferramenta Mermaid.
+Sempre responda em português do Brasil.
+Sua saída DEVE ser um JSON válido, sem markdown, sem comentários e sem texto fora do JSON.`;
+
+// Regras de sintaxe (e exemplo) do diagrama de casos de uso em Mermaid -
+// extraídas em constantes porque são reaproveitadas tanto por
+// buildCasoDeUsoPrompt (wizard) quanto por buildDocumentoMermaidPrompt
+// (gerador de documentos, tipo "Casos de Uso"/"Arquitetura"/etc. em formato
+// diagrama). Usa "flowchart" como sintaxe base em vez do tipo nativo
+// "usecaseDiagram" do Mermaid: esse último é recente demais pra confiar no
+// rendering agora (ver PR mermaid-js/mermaid#7530), enquanto o workaround
+// com flowchart (atores em nós circulares, casos de uso em nós tipo
+// "estádio" dentro de um subgraph) é sintaxe estável há anos.
+const MERMAID_REGRAS_CASO_DE_USO = `- Use "flowchart LR" (não use "usecaseDiagram" - ainda não é suportado de forma confiável).
+- Cada ator é um nó em forma de círculo, fora do sistema: Ator1(("Nome do Ator")).
+- Os casos de uso ficam dentro de um subgraph representando o sistema: subgraph Sistema["Nome do sistema"] ... end.
+- Cada caso de uso é um nó em forma de estádio: UC1(["Texto curto do caso de uso"]).
+- Associação ator-caso de uso: uma aresta simples, ex: Ator1 --- UC1.
+- Relação de inclusão/extensão entre casos de uso: aresta tracejada rotulada SEM aspas no rótulo, ex: UC1 -.->|include| UC2.
+- IDs de nó curtos, em ASCII, sem espaços ou acentos (Ator1, Ator2, UC1, UC2...). O texto legível (com acentos, se precisar) fica só dentro dos rótulos entre colchetes/parênteses.
+- NUNCA use aspas duplas (") em nenhum lugar do diagrama - nem em rótulos de nós, nem em rótulos de aresta. O diagrama inteiro vai dentro de uma string JSON, e aspas internas não escapadas quebram o JSON.
+- NÃO inclua nada fora do bloco do diagrama (sem \`\`\`mermaid, sem explicações).`;
+
+const MERMAID_EXEMPLO_CASO_DE_USO = `flowchart LR
+  Cliente(("Cliente"))
+  subgraph Sistema["Nome do Sistema"]
+    UC1(["Realizar login"])
+    UC2(["Consultar pedidos"])
+  end
+  Cliente --- UC1
+  Cliente --- UC2
+  UC2 -.->|include| UC1`;
+
+// Gera só o diagrama (Mermaid) de casos de uso a partir dos requisitos já
+// levantados no wizard - não depende de projeto salvo no banco (usado antes
+// do projeto existir).
+function buildCasoDeUsoPrompt({ nomeProjeto, escopo, requisitos }) {
+  const funcionais = (requisitos || []).filter((r) => (r.tipo || 'Funcional') === 'Funcional');
+  const naoFuncionais = (requisitos || []).filter((r) => (r.tipo || 'Funcional') !== 'Funcional');
+
+  const funcionaisTexto = funcionais.length
+    ? funcionais.map((r) => `- ${r.titulo}: ${r.descricao}`).join('\n')
+    : 'Nenhum requisito funcional informado.';
+
+  const naoFuncionaisTexto = naoFuncionais.length
+    ? naoFuncionais.map((r) => `- ${r.titulo}: ${r.descricao}`).join('\n')
+    : 'Nenhum requisito não funcional informado.';
+
+  return {
+    system: CASO_DE_USO_SYSTEM,
+    user: `Projeto: "${nomeProjeto}"
+${escopo ? `Escopo: """${escopo}"""` : ''}
+
+REQUISITOS FUNCIONAIS (cada um vira, em geral, um caso de uso):
+${funcionaisTexto}
+
+REQUISITOS NÃO FUNCIONAIS (use só como contexto/restrição, NÃO vira bolha de caso de uso):
+${naoFuncionaisTexto}
+
+Gere um diagrama de casos de uso em Mermaid, identificando os atores envolvidos e um caso de uso para cada requisito funcional relevante (agrupe requisitos claramente duplicados em um único caso de uso).
+
+REGRAS DE SINTAXE MERMAID (siga exatamente, sem exceções):
+${MERMAID_REGRAS_CASO_DE_USO}
+
+Exemplo do formato esperado (adapte nomes/quantidade ao projeto, não copie o conteúdo):
+${MERMAID_EXEMPLO_CASO_DE_USO}
+
+Retorne EXCLUSIVAMENTE este JSON:
+{
+  "resposta_chat": "Frase curta (1 frase) contando o que você gerou, para aparecer como sua fala num chat.",
+  "titulo": "Diagrama de Casos de Uso - ${nomeProjeto}",
+  "atores": ["Nome do Ator 1", "Nome do Ator 2"],
+  "mermaid": "flowchart LR\\n  ...(diagrama completo em uma única string, com \\n separando as linhas)..."
+}`,
+    temperature: 0.4,
+    maxTokens: 4000,
+  };
+}
+
+// Turno de usuário curto pra pedir um ajuste sobre o diagrama já gerado
+// nesta sessão de conversa - o contexto completo (regras de sintaxe, o
+// diagrama atual) já está no histórico de mensagens, então não precisa
+// repetir nada disso aqui; só o pedido novo. "resposta_chat" é o que aparece
+// como bolha da IA no painel de chat (Chat_IA_Panel.dart no frontend) -
+// precisa ser breve, não uma explicação longa.
+function buildTurnoRefinamentoDiagrama(instrucao) {
+  return `Aplique este ajuste ao diagrama que você acabou de gerar, mantendo exatamente as mesmas regras de sintaxe já combinadas, e devolva o diagrama COMPLETO atualizado (não apenas a parte alterada), no mesmo formato JSON de antes (incluindo "resposta_chat" - uma frase curta contando o que você mudou, ex: "Removi o ator Cliente e ajustei os casos de uso ligados a ele.").
+
+Ajuste pedido: ${(instrucao || '').trim() || 'Revise e melhore o diagrama atual.'}`;
+}
+
 const DOCUMENTO_SYSTEM = `Você é um arquiteto de software e analista de negócios sênior.
 Produza documentação técnica profissional em português do Brasil.
 Sempre responda com JSON válido, sem markdown externo, sem comentários.`;
@@ -149,6 +282,122 @@ Regras CRÍTICAS para velocidade e qualidade:
 6. FIDELIDADE AOS REQUISITOS: Quando listar requisitos no documento, use EXATAMENTE e APENAS os fornecidos em "REQUISITOS JÁ CADASTRADOS NO PROJETO". Não omita nenhum requisito da lista e NUNCA invente novos.\``,
     temperature: 0.45,
     maxTokens: 16000,
+  };
+}
+
+// Regras de sintaxe Mermaid por tipo de diagrama, usadas pelo formato
+// "Diagrama Mermaid" do gerador de documentos (buildDocumentoMermaidPrompt).
+// erDiagram e sequenceDiagram são tipos nativos e estáveis do Mermaid (bem
+// mais antigos e maduros que o usecaseDiagram) - por isso, ao contrário do
+// caso de uso, aqui não precisamos de nenhum workaround.
+const MERMAID_RULES_POR_TIPO_DIAGRAMA = {
+  flowchart: {
+    primeiraLinha: 'flowchart LR',
+    regras: `- Use "flowchart LR" ou "flowchart TD".
+- Cada elemento é um nó com um rótulo curto e claro: N1["Texto"].
+- Agrupe elementos relacionados em subgraphs quando fizer sentido: subgraph Nome["Título"] ... end.
+- Setas simples pra fluxo/dependência principal: N1 --> N2. Setas tracejadas pra relações secundárias: N1 -.-> N2.
+- IDs de nó curtos, em ASCII, sem espaços ou acentos. Texto legível (com acentos, se precisar) só dentro dos rótulos.
+- NÃO use aspas duplas dentro do texto dos rótulos.`,
+    exemplo: `flowchart LR
+  A["Módulo A"] --> B["Módulo B"]
+  B --> C["Módulo C"]
+  A -.-> C`,
+  },
+  erDiagram: {
+    primeiraLinha: 'erDiagram',
+    regras: `- Use "erDiagram".
+- Nomes de entidade em maiúsculas, sem espaços nem acentos (ex: PEDIDO, CLIENTE).
+- Relacionamentos com notação pé-de-galinha e um rótulo verbal curto: ENTIDADE_A ||--o{ ENTIDADE_B : "verbo".
+- Liste só os atributos mais relevantes de cada entidade (tipo + nome), sem exagerar no detalhe.`,
+    exemplo: `erDiagram
+  CLIENTE ||--o{ PEDIDO : realiza
+  PEDIDO ||--|{ ITEM_PEDIDO : contem
+  CLIENTE {
+    string nome
+    string email
+  }`,
+  },
+  sequenceDiagram: {
+    primeiraLinha: 'sequenceDiagram',
+    regras: `- Use "sequenceDiagram".
+- Declare os participantes no início: participant Nome.
+- Use "->>" pra chamada/requisição e "-->>" pra resposta, sempre com um rótulo curto depois de ":".
+- Mantenha a sequência na ordem cronológica real do fluxo descrito.`,
+    exemplo: `sequenceDiagram
+  participant Cliente
+  participant API
+  Cliente->>API: POST /login
+  API-->>Cliente: 200 OK + token`,
+  },
+};
+
+// Qual tipo de diagrama Mermaid faz mais sentido pra cada tipo de documento.
+// A qualidade tende a variar por tipo (nem todo documento se presta bem a um
+// diagrama), mas a mecânica é a mesma pra todos.
+const TIPO_DIAGRAMA_MERMAID = {
+  'Casos de Uso': 'flowchart',
+  Arquitetura: 'flowchart',
+  Requisitos: 'flowchart',
+  Testes: 'flowchart',
+  Código: 'flowchart',
+  Modelagem: 'erDiagram',
+  API: 'sequenceDiagram',
+};
+
+const DOCUMENTO_MERMAID_SYSTEM = `Você é um arquiteto de software sênior especializado em comunicar sistemas através de diagramas Mermaid.
+Sempre responda em português do Brasil.
+Sua saída DEVE ser um JSON válido, sem markdown, sem comentários e sem texto fora do JSON.`;
+
+// Versão em "Diagrama Mermaid" do gerador de documentos do projeto (formato
+// alternativo ao texto/Google Docs de buildDocumentoPrompt). Reaproveita a
+// mesma instrução semântica por tipo (TIPO_INSTRUCOES) já usada no formato
+// texto, só troca "como escrever" (seções/tabelas) por "como desenhar"
+// (regras Mermaid do tipo de diagrama escolhido em TIPO_DIAGRAMA_MERMAID).
+function buildDocumentoMermaidPrompt({ projeto, tipoDocumento, tituloDocumento, descricaoExtra, requisitos }) {
+  const instrucaoTipo = TIPO_INSTRUCOES[tipoDocumento] || `Documento técnico do tipo ${tipoDocumento}.`;
+  const diagramaTipo = TIPO_DIAGRAMA_MERMAID[tipoDocumento] || 'flowchart';
+  const { primeiraLinha, regras, exemplo } = MERMAID_RULES_POR_TIPO_DIAGRAMA[diagramaTipo];
+
+  const requisitosTexto = (requisitos || []).length
+    ? requisitos.map((r) => `- [${r.tipo}] ${r.titulo}: ${r.descricao}`).join('\n')
+    : 'Nenhum requisito cadastrado no projeto ainda.';
+
+  return {
+    system: DOCUMENTO_MERMAID_SYSTEM,
+    user: `Gere um diagrama Mermaid que represente este documento técnico.
+
+TIPO DE DOCUMENTO: ${tipoDocumento}
+TÍTULO SOLICITADO: ${tituloDocumento}
+
+PROJETO:
+- Nome: ${projeto.nome_projeto}
+- Descrição: ${projeto.descricao || 'Sem descrição'}
+- Escopo: ${projeto.escopo || 'Não informado'}
+
+O QUE ESSE TIPO DE DOCUMENTO DEVE REPRESENTAR:
+${instrucaoTipo}
+
+REQUISITOS JÁ CADASTRADOS NO PROJETO:
+${requisitosTexto}
+
+INSTRUÇÕES EXTRAS DO USUÁRIO:
+${descricaoExtra || 'Siga as melhores práticas de engenharia de software.'}
+
+REGRAS DE SINTAXE MERMAID (siga exatamente, sem exceções):
+${regras}
+
+Exemplo do formato esperado (adapte ao conteúdo real do projeto, não copie):
+${exemplo}
+
+Retorne EXCLUSIVAMENTE este JSON:
+{
+  "titulo": "${tituloDocumento}",
+  "atores": ["elemento/entidade/participante 1", "..."],
+  "mermaid": "${primeiraLinha}\\n  ...(diagrama completo em uma única string, com \\n separando as linhas)..."
+}`,
+    temperature: 0.4,
+    maxTokens: 4000,
   };
 }
 
@@ -276,7 +525,12 @@ Regras:
 
 module.exports = {
   buildRequisitosPrompt,
+  CHAT_REQUISITOS_SYSTEM,
+  buildTurnoChatRequisitos,
+  buildCasoDeUsoPrompt,
+  buildTurnoRefinamentoDiagrama,
   buildDocumentoPrompt,
+  buildDocumentoMermaidPrompt,
   formatRequisitoForApi,
   buildRetrabalhoPrompt,
   buscarSecaoPorCaminho,

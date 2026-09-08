@@ -44,10 +44,31 @@ function validarSecao(secao, caminho) {
   return null;
 }
 
+// Formato "Diagrama Mermaid" (sem secoes/tabelas - ver
+// service/documentos/salvarDocumentoMermaid.js) não passa pelo editor de
+// seções in-app, mas validamos do mesmo jeito caso algo tente salvar esse
+// formato por aqui.
+function validarConteudoDiagramaMermaid(conteudo) {
+  if (!eTexto(conteudo.mermaid) || !conteudo.mermaid.trim()) {
+    return 'mermaid deve ser texto não-vazio';
+  }
+  if (conteudo.imagem_base64 != null && !eTexto(conteudo.imagem_base64)) {
+    return 'imagem_base64 deve ser texto';
+  }
+  if (conteudo.atores != null && (!Array.isArray(conteudo.atores) || conteudo.atores.some((a) => !eTexto(a)))) {
+    return 'atores deve ser uma lista de textos';
+  }
+  return null;
+}
+
 // Retorna null quando válido, ou uma string descrevendo o primeiro problema.
 function validarConteudoDocumento(conteudo) {
   if (typeof conteudo !== 'object' || conteudo === null || Array.isArray(conteudo)) {
     return 'conteudo_json deve ser um objeto';
+  }
+
+  if (conteudo.formato === 'mermaid') {
+    return validarConteudoDiagramaMermaid(conteudo);
   }
 
   if (conteudo.titulo !== undefined && !eTexto(conteudo.titulo)) {
