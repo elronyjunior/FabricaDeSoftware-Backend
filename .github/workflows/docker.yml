@@ -1,0 +1,65 @@
+name: Docker
+
+# Garante que a imagem Docker da API continua construindo e que o contêiner
+# sobe e responde. Não publica a imagem em nenhum registry.
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-e-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Construir a imagem
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: fabrica-software-backend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Subir o contêiner (smoke test)
+        # Valores falsos: o objetivo é só ver o servidor subir. Nenhuma rota
+        # chamada aqui toca no banco, no Firebase ou na IA.
+        run: |
+          docker run -d --name api -p 3000:3000 \
+            -e DB_HOST=localhost -e DB_USER=ci -e DB_PASSWORD=ci -e DB_NAME=ci \
+            -e JWT_SECRET=ci-secret \
+            -e FIREBASE_PROJECT_ID=projeto-teste \
+            -e FIREBASE_CLIENT_EMAIL=teste@projeto-teste.iam.gserviceaccount.com \
+            -e FIREBASE_PRIVATE_KEY="$(grep '^FIREBASE_PRIVATE_KEY=' .env.test.example | cut -d= -f2- | tr -d '"')" \
+            fabrica-software-backend:ci
+
+      - name: Verificar se a API responde
+        # Rota protegida chamada sem token: a API tem que responder 401.
+        run: |
+          for i in $(seq 1 30); do
+            codigo=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/projetos || true)
+            if [ "$codigo" = "401" ]; then
+              echo "API no ar (GET /api/projetos sem token -> 401)."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::A API não respondeu como esperado (último código: $codigo)."
+          docker logs api
+          exit 1
+
+      - name: Logs do contêiner
+        if: always()
+        run: docker logs api || true

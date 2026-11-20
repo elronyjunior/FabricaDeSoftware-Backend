@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<DIAGRAMA ID="0" TIPO="tpConceitual" UniversalUnicID="fabrica-software-conceitual">
+<Entidade ID="1"><Bounds Left="571" Top="252" Width="124" Height="44"/><Texto>USUÁRIO</Texto></Entidade>
+<Atributo ID="2"><Bounds Left="501" Top="227" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="3"><Inteligente Valor="false"/><Ligacoes PontaA="2" PontaB="1"/><Pontos><Ponto Left="526" Top="236"/><Ponto Left="571" Top="252"/></Pontos></Ligacao>
+<Atributo ID="4"><Bounds Left="489" Top="243" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="5"><Inteligente Valor="false"/><Ligacoes PontaA="4" PontaB="1"/><Pontos><Ponto Left="526" Top="251"/><Ponto Left="571" Top="260"/></Pontos></Ligacao>
+<Atributo ID="6"><Bounds Left="482" Top="259" Width="45" Height="14"/><Texto>email</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="7"><Inteligente Valor="false"/><Ligacoes PontaA="6" PontaB="1"/><Pontos><Ponto Left="526" Top="266"/><Ponto Left="571" Top="269"/></Pontos></Ligacao>
+<Atributo ID="8"><Bounds Left="482" Top="275" Width="45" Height="14"/><Texto>senha</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="9"><Inteligente Valor="false"/><Ligacoes PontaA="8" PontaB="1"/><Pontos><Ponto Left="526" Top="281"/><Ponto Left="571" Top="278"/></Pontos></Ligacao>
+<Atributo ID="10"><Bounds Left="482" Top="291" Width="45" Height="14"/><Texto>nivel</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="11"><Inteligente Valor="false"/><Ligacoes PontaA="10" PontaB="1"/><Pontos><Ponto Left="526" Top="296"/><Ponto Left="571" Top="287"/></Pontos></Ligacao>
+<Atributo ID="12"><Bounds Left="464" Top="307" Width="63" Height="14"/><Texto>telefone</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="13"><Inteligente Valor="false"/><Ligacoes PontaA="12" PontaB="1"/><Pontos><Ponto Left="526" Top="311"/><Ponto Left="571" Top="296"/></Pontos></Ligacao>
+<Entidade ID="14"><Bounds Left="571" Top="65" Width="124" Height="44"/><Texto>CONEXÃO GITHUB</Texto></Entidade>
+<Atributo ID="15"><Bounds Left="739" Top="40" Width="100" Height="14"/><Texto>github_user_id</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="16"><Inteligente Valor="false"/><Ligacoes PontaA="15" PontaB="14"/><Pontos><Ponto Left="739" Top="50"/><Ponto Left="694" Top="65"/></Pontos></Ligacao>
+<Atributo ID="17"><Bounds Left="739" Top="56" Width="88" Height="14"/><Texto>github_login</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="18"><Inteligente Valor="false"/><Ligacoes PontaA="17" PontaB="14"/><Pontos><Ponto Left="739" Top="64"/><Ponto Left="695" Top="73"/></Pontos></Ligacao>
+<Atributo ID="19"><Bounds Left="739" Top="72" Width="113" Height="14"/><Texto>access_token_enc</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="20"><Inteligente Valor="false"/><Ligacoes PontaA="19" PontaB="14"/><Pontos><Ponto Left="739" Top="79"/><Ponto Left="695" Top="82"/></Pontos></Ligacao>
+<Atributo ID="21"><Bounds Left="739" Top="88" Width="45" Height="14"/><Texto>scope</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="22"><Inteligente Valor="false"/><Ligacoes PontaA="21" PontaB="14"/><Pontos><Ponto Left="739" Top="94"/><Ponto Left="695" Top="91"/></Pontos></Ligacao>
+<Atributo ID="23"><Bounds Left="739" Top="104" Width="88" Height="14"/><Texto>conectado_em</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="24"><Inteligente Valor="false"/><Ligacoes PontaA="23" PontaB="14"/><Pontos><Ponto Left="739" Top="109"/><Ponto Left="695" Top="100"/></Pontos></Ligacao>
+<Atributo ID="25"><Bounds Left="739" Top="120" Width="94" Height="14"/><Texto>atualizado_em</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="26"><Inteligente Valor="false"/><Ligacoes PontaA="25" PontaB="14"/><Pontos><Ponto Left="739" Top="124"/><Ponto Left="694" Top="109"/></Pontos></Ligacao>
+<Relacionamento ID="27"><Bounds Left="581" Top="153" Width="104" Height="54"/><Texto>possui</Texto></Relacionamento>
+<Ligacao ID="28"><Inteligente Valor="false"/><Ligacoes PontaA="1" PontaB="27"/><Pontos><Ponto Left="633" Top="252"/><Ponto Left="633" Top="207"/></Pontos><Cardinalidade ID="29"><Bounds Left="630" Top="229" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="30"><Inteligente Valor="false"/><Ligacoes PontaA="14" PontaB="27"/><Pontos><Ponto Left="633" Top="109"/><Ponto Left="633" Top="153"/></Pontos><Cardinalidade ID="31"><Bounds Left="608" Top="118" Width="28" Height="14"/><Card Valor="1"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="32"><Bounds Left="1089" Top="252" Width="124" Height="44"/><Texto>LOG</Texto></Entidade>
+<Atributo ID="33"><Bounds Left="1257" Top="203" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="34"><Inteligente Valor="false"/><Ligacoes PontaA="33" PontaB="32"/><Pontos><Ponto Left="1257" Top="212"/><Ponto Left="1189" Top="252"/></Pontos></Ligacao>
+<Atributo ID="35"><Bounds Left="1257" Top="219" Width="82" Height="14"/><Texto>nome_tabela</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="36"><Inteligente Valor="false"/><Ligacoes PontaA="35" PontaB="32"/><Pontos><Ponto Left="1257" Top="228"/><Ponto Left="1202" Top="252"/></Pontos></Ligacao>
+<Atributo ID="37"><Bounds Left="1257" Top="235" Width="76" Height="14"/><Texto>nome_campo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="38"><Inteligente Valor="false"/><Ligacoes PontaA="37" PontaB="32"/><Pontos><Ponto Left="1257" Top="243"/><Ponto Left="1213" Top="256"/></Pontos></Ligacao>
+<Atributo ID="39"><Bounds Left="1257" Top="251" Width="156" Height="14"/><Texto>chave_primaria_registro</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="40"><Inteligente Valor="false"/><Ligacoes PontaA="39" PontaB="32"/><Pontos><Ponto Left="1257" Top="258"/><Ponto Left="1213" Top="265"/></Pontos></Ligacao>
+<Atributo ID="41"><Bounds Left="1257" Top="267" Width="169" Height="14"/><Texto>chave_secundaria_registro</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="42"><Inteligente Valor="false"/><Ligacoes PontaA="41" PontaB="32"/><Pontos><Ponto Left="1257" Top="274"/><Ponto Left="1213" Top="274"/></Pontos></Ligacao>
+<Atributo ID="43"><Bounds Left="1257" Top="283" Width="69" Height="14"/><Texto>tipo_acao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="44"><Inteligente Valor="false"/><Ligacoes PontaA="43" PontaB="32"/><Pontos><Ponto Left="1257" Top="289"/><Ponto Left="1213" Top="282"/></Pontos></Ligacao>
+<Atributo ID="45"><Bounds Left="1257" Top="299" Width="88" Height="14"/><Texto>valor_antigo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="46"><Inteligente Valor="false"/><Ligacoes PontaA="45" PontaB="32"/><Pontos><Ponto Left="1257" Top="304"/><Ponto Left="1213" Top="291"/></Pontos></Ligacao>
+<Atributo ID="47"><Bounds Left="1257" Top="315" Width="76" Height="14"/><Texto>valor_novo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="48"><Inteligente Valor="false"/><Ligacoes PontaA="47" PontaB="32"/><Pontos><Ponto Left="1257" Top="319"/><Ponto Left="1202" Top="296"/></Pontos></Ligacao>
+<Atributo ID="49"><Bounds Left="1257" Top="331" Width="69" Height="14"/><Texto>data_hora</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="50"><Inteligente Valor="false"/><Ligacoes PontaA="49" PontaB="32"/><Pontos><Ponto Left="1257" Top="335"/><Ponto Left="1189" Top="296"/></Pontos></Ligacao>
+<Relacionamento ID="51"><Bounds Left="847" Top="247" Width="104" Height="54"/><Texto>registra</Texto></Relacionamento>
+<Ligacao ID="52"><Inteligente Valor="false"/><Ligacoes PontaA="1" PontaB="51"/><Pontos><Ponto Left="695" Top="274"/><Ponto Left="847" Top="274"/></Pontos><Cardinalidade ID="53"><Bounds Left="697" Top="278" Width="28" Height="14"/><Card Valor="1"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="54"><Inteligente Valor="false"/><Ligacoes PontaA="32" PontaB="51"/><Pontos><Ponto Left="1089" Top="274"/><Ponto Left="951" Top="274"/></Pontos><Cardinalidade ID="55"><Bounds Left="1059" Top="256" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="56"><Bounds Left="571" Top="756" Width="124" Height="44"/><Texto>PROJETO</Texto></Entidade>
+<Atributo ID="57"><Bounds Left="371" Top="675" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="58"><Inteligente Valor="false"/><Ligacoes PontaA="57" PontaB="56"/><Pontos><Ponto Left="396" Top="684"/><Ponto Left="577" Top="756"/></Pontos></Ligacao>
+<Atributo ID="59"><Bounds Left="309" Top="691" Width="88" Height="14"/><Texto>nome_projeto</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="60"><Inteligente Valor="false"/><Ligacoes PontaA="59" PontaB="56"/><Pontos><Ponto Left="396" Top="699"/><Ponto Left="571" Top="757"/></Pontos></Ligacao>
+<Atributo ID="61"><Bounds Left="328" Top="707" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="62"><Inteligente Valor="false"/><Ligacoes PontaA="61" PontaB="56"/><Pontos><Ponto Left="396" Top="715"/><Ponto Left="571" Top="761"/></Pontos></Ligacao>
+<Atributo ID="63"><Bounds Left="359" Top="723" Width="38" Height="14"/><Texto>tipo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="64"><Inteligente Valor="false"/><Ligacoes PontaA="63" PontaB="56"/><Pontos><Ponto Left="396" Top="731"/><Ponto Left="571" Top="765"/></Pontos></Ligacao>
+<Atributo ID="65"><Bounds Left="297" Top="739" Width="100" Height="14"/><Texto>modelo_projeto</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="66"><Inteligente Valor="false"/><Ligacoes PontaA="65" PontaB="56"/><Pontos><Ponto Left="396" Top="746"/><Ponto Left="571" Top="769"/></Pontos></Ligacao>
+<Atributo ID="67"><Bounds Left="315" Top="755" Width="82" Height="14"/><Texto>metodologia</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="68"><Inteligente Valor="false"/><Ligacoes PontaA="67" PontaB="56"/><Pontos><Ponto Left="396" Top="762"/><Ponto Left="571" Top="773"/></Pontos></Ligacao>
+<Atributo ID="69"><Bounds Left="346" Top="771" Width="51" Height="14"/><Texto>escopo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="70"><Inteligente Valor="false"/><Ligacoes PontaA="69" PontaB="56"/><Pontos><Ponto Left="397" Top="778"/><Ponto Left="571" Top="778"/></Pontos></Ligacao>
+<Atributo ID="71"><Bounds Left="315" Top="787" Width="82" Height="14"/><Texto>data_inicio</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="72"><Inteligente Valor="false"/><Ligacoes PontaA="71" PontaB="56"/><Pontos><Ponto Left="396" Top="793"/><Ponto Left="571" Top="782"/></Pontos></Ligacao>
+<Atributo ID="73"><Bounds Left="266" Top="803" Width="131" Height="14"/><Texto>data_final_previsto</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="74"><Inteligente Valor="false"/><Ligacoes PontaA="73" PontaB="56"/><Pontos><Ponto Left="396" Top="809"/><Ponto Left="571" Top="786"/></Pontos></Ligacao>
+<Atributo ID="75"><Bounds Left="321" Top="819" Width="76" Height="14"/><Texto>data_final</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="76"><Inteligente Valor="false"/><Ligacoes PontaA="75" PontaB="56"/><Pontos><Ponto Left="396" Top="824"/><Ponto Left="571" Top="790"/></Pontos></Ligacao>
+<Atributo ID="77"><Bounds Left="309" Top="835" Width="88" Height="14"/><Texto>complexidade</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="78"><Inteligente Valor="false"/><Ligacoes PontaA="77" PontaB="56"/><Pontos><Ponto Left="396" Top="840"/><Ponto Left="571" Top="794"/></Pontos></Ligacao>
+<Atributo ID="79"><Bounds Left="272" Top="851" Width="125" Height="14"/><Texto>orcamento_estimado</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="80"><Inteligente Valor="false"/><Ligacoes PontaA="79" PontaB="56"/><Pontos><Ponto Left="396" Top="856"/><Ponto Left="571" Top="798"/></Pontos></Ligacao>
+<Atributo ID="81"><Bounds Left="309" Top="867" Width="88" Height="14"/><Texto>data_criacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="82"><Inteligente Valor="false"/><Ligacoes PontaA="81" PontaB="56"/><Pontos><Ponto Left="396" Top="871"/><Ponto Left="577" Top="800"/></Pontos></Ligacao>
+<Relacionamento ID="83"><Bounds Left="502" Top="499" Width="104" Height="54"/><Texto>cria</Texto></Relacionamento>
+<Relacionamento ID="84"><Bounds Left="660" Top="499" Width="104" Height="54"/><Texto>é responsável por</Texto></Relacionamento>
+<Ligacao ID="85"><Inteligente Valor="false"/><Ligacoes PontaA="1" PontaB="83"/><Pontos><Ponto Left="626" Top="296"/><Ponto Left="561" Top="502"/></Pontos><Cardinalidade ID="86"><Bounds Left="596" Top="300" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="87"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="83"/><Pontos><Ponto Left="626" Top="756"/><Ponto Left="561" Top="549"/></Pontos><Cardinalidade ID="88"><Bounds Left="607" Top="696" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="89"><Inteligente Valor="false"/><Ligacoes PontaA="1" PontaB="84"/><Pontos><Ponto Left="639" Top="296"/><Ponto Left="704" Top="502"/></Pontos><Cardinalidade ID="90"><Bounds Left="620" Top="307" Width="28" Height="14"/><Card Valor="1"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="91"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="84"/><Pontos><Ponto Left="639" Top="756"/><Ponto Left="704" Top="549"/></Pontos><Cardinalidade ID="92"><Bounds Left="651" Top="702" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="93"><Bounds Left="182" Top="497" Width="124" Height="44"/><Texto>CLIENTE</Texto></Entidade>
+<Atributo ID="94"><Bounds Left="112" Top="456" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="95"><Inteligente Valor="false"/><Ligacoes PontaA="94" PontaB="93"/><Pontos><Ponto Left="137" Top="465"/><Ponto Left="200" Top="497"/></Pontos></Ligacao>
+<Atributo ID="96"><Bounds Left="50" Top="472" Width="88" Height="14"/><Texto>razao_social</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="97"><Inteligente Valor="false"/><Ligacoes PontaA="96" PontaB="93"/><Pontos><Ponto Left="137" Top="481"/><Ponto Left="182" Top="497"/></Pontos></Ligacao>
+<Atributo ID="98"><Bounds Left="100" Top="488" Width="38" Height="14"/><Texto>cnpj</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="99"><Inteligente Valor="false"/><Ligacoes PontaA="98" PontaB="93"/><Pontos><Ponto Left="137" Top="496"/><Ponto Left="182" Top="505"/></Pontos></Ligacao>
+<Atributo ID="100"><Bounds Left="93" Top="504" Width="45" Height="14"/><Texto>email</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="101"><Inteligente Valor="false"/><Ligacoes PontaA="100" PontaB="93"/><Pontos><Ponto Left="137" Top="511"/><Ponto Left="182" Top="514"/></Pontos></Ligacao>
+<Atributo ID="102"><Bounds Left="75" Top="520" Width="63" Height="14"/><Texto>telefone</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="103"><Inteligente Valor="false"/><Ligacoes PontaA="102" PontaB="93"/><Pontos><Ponto Left="137" Top="526"/><Ponto Left="182" Top="523"/></Pontos></Ligacao>
+<Atributo ID="104"><Bounds Left="93" Top="536" Width="45" Height="14"/><Texto>setor</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="105"><Inteligente Valor="false"/><Ligacoes PontaA="104" PontaB="93"/><Pontos><Ponto Left="137" Top="541"/><Ponto Left="182" Top="532"/></Pontos></Ligacao>
+<Atributo ID="106"><Bounds Left="81" Top="552" Width="57" Height="14"/><Texto>contato</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="107"><Inteligente Valor="false"/><Ligacoes PontaA="106" PontaB="93"/><Pontos><Ponto Left="137" Top="556"/><Ponto Left="182" Top="541"/></Pontos></Ligacao>
+<Atributo ID="108"><Bounds Left="50" Top="568" Width="88" Height="14"/><Texto>data_criacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="109"><Inteligente Valor="false"/><Ligacoes PontaA="108" PontaB="93"/><Pontos><Ponto Left="137" Top="572"/><Ponto Left="200" Top="541"/></Pontos></Ligacao>
+<Relacionamento ID="110"><Bounds Left="387" Top="600" Width="104" Height="54"/><Texto>solicita</Texto></Relacionamento>
+<Ligacao ID="111"><Inteligente Valor="false"/><Ligacoes PontaA="93" PontaB="110"/><Pontos><Ponto Left="283" Top="541"/><Ponto Left="413" Top="613"/></Pontos><Cardinalidade ID="112"><Bounds Left="278" Top="551" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="113"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="110"/><Pontos><Ponto Left="604" Top="756"/><Ponto Left="459" Top="643"/></Pontos><Cardinalidade ID="114"><Bounds Left="556" Top="708" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="115"><Bounds Left="182" Top="202" Width="124" Height="44"/><Texto>ENDEREÇO</Texto></Entidade>
+<Atributo ID="116"><Bounds Left="112" Top="153" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="117"><Inteligente Valor="false"/><Ligacoes PontaA="116" PontaB="115"/><Pontos><Ponto Left="137" Top="162"/><Ponto Left="205" Top="202"/></Pontos></Ligacao>
+<Atributo ID="118"><Bounds Left="62" Top="169" Width="76" Height="14"/><Texto>logradouro</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="119"><Inteligente Valor="false"/><Ligacoes PontaA="118" PontaB="115"/><Pontos><Ponto Left="137" Top="178"/><Ponto Left="192" Top="202"/></Pontos></Ligacao>
+<Atributo ID="120"><Bounds Left="106" Top="185" Width="32" Height="14"/><Texto>cep</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="121"><Inteligente Valor="false"/><Ligacoes PontaA="120" PontaB="115"/><Pontos><Ponto Left="137" Top="193"/><Ponto Left="182" Top="206"/></Pontos></Ligacao>
+<Atributo ID="122"><Bounds Left="87" Top="201" Width="51" Height="14"/><Texto>numero</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="123"><Inteligente Valor="false"/><Ligacoes PontaA="122" PontaB="115"/><Pontos><Ponto Left="137" Top="208"/><Ponto Left="182" Top="215"/></Pontos></Ligacao>
+<Atributo ID="124"><Bounds Left="87" Top="217" Width="51" Height="14"/><Texto>bairro</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="125"><Inteligente Valor="false"/><Ligacoes PontaA="124" PontaB="115"/><Pontos><Ponto Left="138" Top="224"/><Ponto Left="182" Top="224"/></Pontos></Ligacao>
+<Atributo ID="126"><Bounds Left="87" Top="233" Width="51" Height="14"/><Texto>cidade</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="127"><Inteligente Valor="false"/><Ligacoes PontaA="126" PontaB="115"/><Pontos><Ponto Left="137" Top="239"/><Ponto Left="182" Top="232"/></Pontos></Ligacao>
+<Atributo ID="128"><Bounds Left="87" Top="249" Width="51" Height="14"/><Texto>estado</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="129"><Inteligente Valor="false"/><Ligacoes PontaA="128" PontaB="115"/><Pontos><Ponto Left="137" Top="254"/><Ponto Left="182" Top="241"/></Pontos></Ligacao>
+<Atributo ID="130"><Bounds Left="100" Top="265" Width="38" Height="14"/><Texto>pais</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="131"><Inteligente Valor="false"/><Ligacoes PontaA="130" PontaB="115"/><Pontos><Ponto Left="137" Top="269"/><Ponto Left="192" Top="246"/></Pontos></Ligacao>
+<Atributo ID="132"><Bounds Left="56" Top="281" Width="82" Height="14"/><Texto>complemento</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="133"><Inteligente Valor="false"/><Ligacoes PontaA="132" PontaB="115"/><Pontos><Ponto Left="137" Top="285"/><Ponto Left="205" Top="246"/></Pontos></Ligacao>
+<Relacionamento ID="134"><Bounds Left="192" Top="344" Width="104" Height="54"/><Texto>localiza-se</Texto></Relacionamento>
+<Ligacao ID="135"><Inteligente Valor="false"/><Ligacoes PontaA="115" PontaB="134"/><Pontos><Ponto Left="244" Top="246"/><Ponto Left="244" Top="344"/></Pontos><Cardinalidade ID="136"><Bounds Left="219" Top="255" Width="28" Height="14"/><Card Valor="1"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="137"><Inteligente Valor="false"/><Ligacoes PontaA="93" PontaB="134"/><Pontos><Ponto Left="244" Top="497"/><Ponto Left="244" Top="398"/></Pontos><Cardinalidade ID="138"><Bounds Left="241" Top="474" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="139"><Bounds Left="881" Top="374" Width="124" Height="44"/><Texto>TECNOLOGIA</Texto></Entidade>
+<Atributo ID="140"><Bounds Left="1035" Top="365" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="141"><Inteligente Valor="false"/><Ligacoes PontaA="140" PontaB="139"/><Pontos><Ponto Left="1035" Top="373"/><Ponto Left="1005" Top="380"/></Pontos></Ligacao>
+<Atributo ID="142"><Bounds Left="1035" Top="381" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="143"><Inteligente Valor="false"/><Ligacoes PontaA="142" PontaB="139"/><Pontos><Ponto Left="1035" Top="388"/><Ponto Left="1005" Top="390"/></Pontos></Ligacao>
+<Atributo ID="144"><Bounds Left="1035" Top="397" Width="69" Height="14"/><Texto>categoria</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="145"><Inteligente Valor="false"/><Ligacoes PontaA="144" PontaB="139"/><Pontos><Ponto Left="1035" Top="403"/><Ponto Left="1005" Top="401"/></Pontos></Ligacao>
+<Atributo ID="146"><Bounds Left="1035" Top="413" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="147"><Inteligente Valor="false"/><Ligacoes PontaA="146" PontaB="139"/><Pontos><Ponto Left="1035" Top="418"/><Ponto Left="1005" Top="411"/></Pontos></Ligacao>
+<Relacionamento ID="148"><Bounds Left="739" Top="560" Width="104" Height="54"/><Texto>utiliza</Texto></Relacionamento>
+<Atributo ID="149"><Bounds Left="854" Top="594" Width="100" Height="14"/><Texto>data_aprovacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="150"><Inteligente Valor="false"/><Ligacoes PontaA="149" PontaB="148"/><Pontos><Ponto Left="854" Top="599"/><Ponto Left="828" Top="594"/></Pontos></Ligacao>
+<Ligacao ID="151"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="148"/><Pontos><Ponto Left="651" Top="756"/><Ponto Left="775" Top="605"/></Pontos><Cardinalidade ID="152"><Bounds Left="678" Top="715" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="153"><Inteligente Valor="false"/><Ligacoes PontaA="139" PontaB="148"/><Pontos><Ponto Left="925" Top="418"/><Ponto Left="806" Top="567"/></Pontos><Cardinalidade ID="154"><Bounds Left="892" Top="416" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="155"><Bounds Left="1082" Top="583" Width="124" Height="44"/><Texto>CONTRIBUIDOR</Texto></Entidade>
+<Atributo ID="156"><Bounds Left="1236" Top="550" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="157"><Inteligente Valor="false"/><Ligacoes PontaA="156" PontaB="155"/><Pontos><Ponto Left="1236" Top="559"/><Ponto Left="1188" Top="583"/></Pontos></Ligacao>
+<Atributo ID="158"><Bounds Left="1236" Top="566" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="159"><Inteligente Valor="false"/><Ligacoes PontaA="158" PontaB="155"/><Pontos><Ponto Left="1236" Top="574"/><Ponto Left="1206" Top="584"/></Pontos></Ligacao>
+<Atributo ID="160"><Bounds Left="1236" Top="582" Width="45" Height="14"/><Texto>email</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="161"><Inteligente Valor="false"/><Ligacoes PontaA="160" PontaB="155"/><Pontos><Ponto Left="1236" Top="589"/><Ponto Left="1206" Top="594"/></Pontos></Ligacao>
+<Atributo ID="162"><Bounds Left="1236" Top="598" Width="63" Height="14"/><Texto>telefone</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="163"><Inteligente Valor="false"/><Ligacoes PontaA="162" PontaB="155"/><Pontos><Ponto Left="1236" Top="605"/><Ponto Left="1206" Top="605"/></Pontos></Ligacao>
+<Atributo ID="164"><Bounds Left="1236" Top="614" Width="45" Height="14"/><Texto>cargo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="165"><Inteligente Valor="false"/><Ligacoes PontaA="164" PontaB="155"/><Pontos><Ponto Left="1236" Top="620"/><Ponto Left="1206" Top="615"/></Pontos></Ligacao>
+<Atributo ID="166"><Bounds Left="1236" Top="630" Width="57" Height="14"/><Texto>empresa</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="167"><Inteligente Valor="false"/><Ligacoes PontaA="166" PontaB="155"/><Pontos><Ponto Left="1236" Top="635"/><Ponto Left="1206" Top="625"/></Pontos></Ligacao>
+<Atributo ID="168"><Bounds Left="1236" Top="646" Width="45" Height="14"/><Texto>ativo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="169"><Inteligente Valor="false"/><Ligacoes PontaA="168" PontaB="155"/><Pontos><Ponto Left="1236" Top="650"/><Ponto Left="1188" Top="627"/></Pontos></Ligacao>
+<Relacionamento ID="170"><Bounds Left="840" Top="665" Width="104" Height="54"/><Texto>participa</Texto></Relacionamento>
+<Atributo ID="171"><Bounds Left="916" Top="722" Width="82" Height="14"/><Texto>data_inicio</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="172"><Inteligente Valor="false"/><Ligacoes PontaA="171" PontaB="170"/><Pontos><Ponto Left="918" Top="724"/><Ponto Left="907" Top="711"/></Pontos></Ligacao>
+<Atributo ID="173"><Bounds Left="916" Top="738" Width="63" Height="14"/><Texto>data_fim</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="174"><Inteligente Valor="false"/><Ligacoes PontaA="173" PontaB="170"/><Pontos><Ponto Left="919" Top="739"/><Ponto Left="903" Top="712"/></Pontos></Ligacao>
+<Ligacao ID="175"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="170"/><Pontos><Ponto Left="695" Top="757"/><Ponto Left="860" Top="702"/></Pontos><Cardinalidade ID="176"><Bounds Left="733" Top="744" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="177"><Inteligente Valor="false"/><Ligacoes PontaA="155" PontaB="170"/><Pontos><Ponto Left="1082" Top="626"/><Ponto Left="923" Top="681"/></Pontos><Cardinalidade ID="178"><Bounds Left="1049" Top="614" Width="28" Height="14"/><Card Valor="2"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="179"><Bounds Left="1111" Top="842" Width="124" Height="44"/><Texto>REQUISITO</Texto></Entidade>
+<Atributo ID="180"><Bounds Left="1265" Top="833" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="181"><Inteligente Valor="false"/><Ligacoes PontaA="180" PontaB="179"/><Pontos><Ponto Left="1265" Top="841"/><Ponto Left="1235" Top="848"/></Pontos></Ligacao>
+<Atributo ID="182"><Bounds Left="1265" Top="849" Width="38" Height="14"/><Texto>tipo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="183"><Inteligente Valor="false"/><Ligacoes PontaA="182" PontaB="179"/><Pontos><Ponto Left="1265" Top="856"/><Ponto Left="1235" Top="858"/></Pontos></Ligacao>
+<Atributo ID="184"><Bounds Left="1265" Top="865" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="185"><Inteligente Valor="false"/><Ligacoes PontaA="184" PontaB="179"/><Pontos><Ponto Left="1265" Top="871"/><Ponto Left="1235" Top="869"/></Pontos></Ligacao>
+<Atributo ID="186"><Bounds Left="1265" Top="881" Width="82" Height="14"/><Texto>observacoes</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="187"><Inteligente Valor="false"/><Ligacoes PontaA="186" PontaB="179"/><Pontos><Ponto Left="1265" Top="886"/><Ponto Left="1235" Top="879"/></Pontos></Ligacao>
+<Relacionamento ID="188"><Bounds Left="862" Top="805" Width="104" Height="54"/><Texto>contém</Texto></Relacionamento>
+<Atributo ID="189"><Bounds Left="938" Top="865" Width="113" Height="14"/><Texto>codigo_requisito</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="190"><Inteligente Valor="false"/><Ligacoes PontaA="189" PontaB="188"/><Pontos><Ponto Left="940" Top="867"/><Ponto Left="928" Top="851"/></Pontos></Ligacao>
+<Atributo ID="191"><Bounds Left="938" Top="881" Width="76" Height="14"/><Texto>prioridade</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="192"><Inteligente Valor="false"/><Ligacoes PontaA="191" PontaB="188"/><Pontos><Ponto Left="941" Top="882"/><Ponto Left="925" Top="853"/></Pontos></Ligacao>
+<Atributo ID="193"><Bounds Left="938" Top="897" Width="100" Height="14"/><Texto>data_aprovacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="194"><Inteligente Valor="false"/><Ligacoes PontaA="193" PontaB="188"/><Pontos><Ponto Left="941" Top="898"/><Ponto Left="923" Top="854"/></Pontos></Ligacao>
+<Ligacao ID="195"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="188"/><Pontos><Ponto Left="695" Top="789"/><Ponto Left="876" Top="824"/></Pontos><Cardinalidade ID="196"><Bounds Left="729" Top="803" Width="28" Height="14"/><Card Valor="2"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="197"><Inteligente Valor="false"/><Ligacoes PontaA="179" PontaB="188"/><Pontos><Ponto Left="1111" Top="856"/><Ponto Left="956" Top="837"/></Pontos><Cardinalidade ID="198"><Bounds Left="1082" Top="836" Width="28" Height="14"/><Card Valor="2"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="199"><Bounds Left="1068" Top="1001" Width="124" Height="44"/><Texto>RECURSO</Texto></Entidade>
+<Atributo ID="200"><Bounds Left="1222" Top="976" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="201"><Inteligente Valor="false"/><Ligacoes PontaA="200" PontaB="199"/><Pontos><Ponto Left="1222" Top="985"/><Ponto Left="1183" Top="1001"/></Pontos></Ligacao>
+<Atributo ID="202"><Bounds Left="1222" Top="992" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="203"><Inteligente Valor="false"/><Ligacoes PontaA="202" PontaB="199"/><Pontos><Ponto Left="1222" Top="1000"/><Ponto Left="1192" Top="1007"/></Pontos></Ligacao>
+<Atributo ID="204"><Bounds Left="1222" Top="1008" Width="38" Height="14"/><Texto>tipo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="205"><Inteligente Valor="false"/><Ligacoes PontaA="204" PontaB="199"/><Pontos><Ponto Left="1222" Top="1015"/><Ponto Left="1192" Top="1017"/></Pontos></Ligacao>
+<Atributo ID="206"><Bounds Left="1222" Top="1024" Width="76" Height="14"/><Texto>disponivel</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="207"><Inteligente Valor="false"/><Ligacoes PontaA="206" PontaB="199"/><Pontos><Ponto Left="1222" Top="1030"/><Ponto Left="1192" Top="1028"/></Pontos></Ligacao>
+<Atributo ID="208"><Bounds Left="1222" Top="1040" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="209"><Inteligente Valor="false"/><Ligacoes PontaA="208" PontaB="199"/><Pontos><Ponto Left="1222" Top="1045"/><Ponto Left="1192" Top="1038"/></Pontos></Ligacao>
+<Atributo ID="210"><Bounds Left="1222" Top="1056" Width="88" Height="14"/><Texto>data_criacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="211"><Inteligente Valor="false"/><Ligacoes PontaA="210" PontaB="199"/><Pontos><Ponto Left="1222" Top="1060"/><Ponto Left="1183" Top="1045"/></Pontos></Ligacao>
+<Relacionamento ID="212"><Bounds Left="797" Top="960" Width="104" Height="54"/><Texto>aloca</Texto></Relacionamento>
+<Atributo ID="213"><Bounds Left="869" Top="1022" Width="76" Height="14"/><Texto>custo_hora</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="214"><Inteligente Valor="false"/><Ligacoes PontaA="213" PontaB="212"/><Pontos><Ponto Left="871" Top="1023"/><Ponto Left="861" Top="1007"/></Pontos></Ligacao>
+<Atributo ID="215"><Bounds Left="869" Top="1038" Width="94" Height="14"/><Texto>data_alocacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="216"><Inteligente Valor="false"/><Ligacoes PontaA="215" PontaB="212"/><Pontos><Ponto Left="872" Top="1039"/><Ponto Left="858" Top="1008"/></Pontos></Ligacao>
+<Atributo ID="217"><Bounds Left="869" Top="1054" Width="113" Height="14"/><Texto>data_desalocacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="218"><Inteligente Valor="false"/><Ligacoes PontaA="217" PontaB="212"/><Pontos><Ponto Left="873" Top="1055"/><Ponto Left="857" Top="1009"/></Pontos></Ligacao>
+<Ligacao ID="219"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="212"/><Pontos><Ponto Left="655" Top="800"/><Ponto Left="830" Top="969"/></Pontos><Cardinalidade ID="220"><Bounds Left="671" Top="837" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="221"><Inteligente Valor="false"/><Ligacoes PontaA="199" PontaB="212"/><Pontos><Ponto Left="1068" Top="1015"/><Ponto Left="890" Top="992"/></Pontos><Cardinalidade ID="222"><Bounds Left="1039" Top="995" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="223"><Bounds Left="859" Top="1303" Width="124" Height="44"/><Texto>TESTE</Texto></Entidade>
+<Atributo ID="224"><Bounds Left="1013" Top="1294" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="225"><Inteligente Valor="false"/><Ligacoes PontaA="224" PontaB="223"/><Pontos><Ponto Left="1013" Top="1302"/><Ponto Left="983" Top="1309"/></Pontos></Ligacao>
+<Atributo ID="226"><Bounds Left="1013" Top="1310" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="227"><Inteligente Valor="false"/><Ligacoes PontaA="226" PontaB="223"/><Pontos><Ponto Left="1013" Top="1317"/><Ponto Left="983" Top="1319"/></Pontos></Ligacao>
+<Atributo ID="228"><Bounds Left="1013" Top="1326" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="229"><Inteligente Valor="false"/><Ligacoes PontaA="228" PontaB="223"/><Pontos><Ponto Left="1013" Top="1332"/><Ponto Left="983" Top="1330"/></Pontos></Ligacao>
+<Atributo ID="230"><Bounds Left="1013" Top="1342" Width="63" Height="14"/><Texto>situacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="0"/></Atributo>
+<Ligacao ID="231"><Inteligente Valor="false"/><Ligacoes PontaA="230" PontaB="223"/><Pontos><Ponto Left="1013" Top="1347"/><Ponto Left="983" Top="1340"/></Pontos></Ligacao>
+<Relacionamento ID="232"><Bounds Left="682" Top="1068" Width="104" Height="54"/><Texto>possui</Texto></Relacionamento>
+<Ligacao ID="233"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="232"/><Pontos><Ponto Left="640" Top="800"/><Ponto Left="726" Top="1071"/></Pontos><Cardinalidade ID="234"><Bounds Left="631" Top="845" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="235"><Inteligente Valor="false"/><Ligacoes PontaA="223" PontaB="232"/><Pontos><Ponto Left="903" Top="1303"/><Ponto Left="749" Top="1113"/></Pontos><Cardinalidade ID="236"><Bounds Left="887" Top="1276" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="237"><Bounds Left="571" Top="1274" Width="124" Height="44"/><Texto>DOCUMENTO</Texto></Entidade>
+<Atributo ID="238"><Bounds Left="515" Top="1341" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="239"><Inteligente Valor="false"/><Ligacoes PontaA="238" PontaB="237"/><Pontos><Ponto Left="540" Top="1345"/><Ponto Left="591" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="240"><Bounds Left="503" Top="1357" Width="38" Height="14"/><Texto>tipo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="241"><Inteligente Valor="false"/><Ligacoes PontaA="240" PontaB="237"/><Pontos><Ponto Left="539" Top="1360"/><Ponto Left="601" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="242"><Bounds Left="472" Top="1373" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="243"><Inteligente Valor="false"/><Ligacoes PontaA="242" PontaB="237"/><Pontos><Ponto Left="539" Top="1376"/><Ponto Left="607" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="244"><Bounds Left="459" Top="1389" Width="82" Height="14"/><Texto>arquivo_url</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="245"><Inteligente Valor="false"/><Ligacoes PontaA="244" PontaB="237"/><Pontos><Ponto Left="539" Top="1391"/><Ponto Left="611" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="246"><Bounds Left="434" Top="1405" Width="107" Height="14"/><Texto>nome_do_arquivo</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="247"><Inteligente Valor="false"/><Ligacoes PontaA="246" PontaB="237"/><Pontos><Ponto Left="538" Top="1407"/><Ponto Left="614" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="248"><Bounds Left="447" Top="1421" Width="94" Height="14"/><Texto>conteudo_json</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="249"><Inteligente Valor="false"/><Ligacoes PontaA="248" PontaB="237"/><Pontos><Ponto Left="538" Top="1423"/><Ponto Left="616" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="250"><Bounds Left="453" Top="1437" Width="88" Height="14"/><Texto>data_criacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="251"><Inteligente Valor="false"/><Ligacoes PontaA="250" PontaB="237"/><Pontos><Ponto Left="538" Top="1438"/><Ponto Left="618" Top="1318"/></Pontos></Ligacao>
+<Atributo ID="252"><Bounds Left="441" Top="1453" Width="100" Height="14"/><Texto>data_aprovacao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="253"><Inteligente Valor="false"/><Ligacoes PontaA="252" PontaB="237"/><Pontos><Ponto Left="538" Top="1454"/><Ponto Left="619" Top="1318"/></Pontos></Ligacao>
+<Relacionamento ID="254"><Bounds Left="581" Top="1025" Width="104" Height="54"/><Texto>possui</Texto></Relacionamento>
+<Ligacao ID="255"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="254"/><Pontos><Ponto Left="633" Top="800"/><Ponto Left="633" Top="1025"/></Pontos><Cardinalidade ID="256"><Bounds Left="608" Top="845" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="257"><Inteligente Valor="false"/><Ligacoes PontaA="237" PontaB="254"/><Pontos><Ponto Left="633" Top="1274"/><Ponto Left="633" Top="1079"/></Pontos><Cardinalidade ID="258"><Bounds Left="630" Top="1251" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Entidade ID="259"><Bounds Left="197" Top="1159" Width="124" Height="44"/><Texto>TREINAMENTO</Texto></Entidade>
+<Atributo ID="260"><Bounds Left="127" Top="1118" Width="26" Height="14"/><Texto>id</Texto><Identificador Valor="true"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="261"><Inteligente Valor="false"/><Ligacoes PontaA="260" PontaB="259"/><Pontos><Ponto Left="152" Top="1127"/><Ponto Left="215" Top="1159"/></Pontos></Ligacao>
+<Atributo ID="262"><Bounds Left="115" Top="1134" Width="38" Height="14"/><Texto>nome</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="263"><Inteligente Valor="false"/><Ligacoes PontaA="262" PontaB="259"/><Pontos><Ponto Left="152" Top="1143"/><Ponto Left="197" Top="1159"/></Pontos></Ligacao>
+<Atributo ID="264"><Bounds Left="84" Top="1150" Width="69" Height="14"/><Texto>descricao</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="265"><Inteligente Valor="false"/><Ligacoes PontaA="264" PontaB="259"/><Pontos><Ponto Left="152" Top="1158"/><Ponto Left="197" Top="1167"/></Pontos></Ligacao>
+<Atributo ID="266"><Bounds Left="40" Top="1166" Width="113" Height="14"/><Texto>tipo_treinamento</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="267"><Inteligente Valor="false"/><Ligacoes PontaA="266" PontaB="259"/><Pontos><Ponto Left="152" Top="1173"/><Ponto Left="197" Top="1176"/></Pontos></Ligacao>
+<Atributo ID="268"><Bounds Left="71" Top="1182" Width="82" Height="14"/><Texto>data_inicio</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="269"><Inteligente Valor="false"/><Ligacoes PontaA="268" PontaB="259"/><Pontos><Ponto Left="152" Top="1188"/><Ponto Left="197" Top="1185"/></Pontos></Ligacao>
+<Atributo ID="270"><Bounds Left="65" Top="1198" Width="88" Height="14"/><Texto>data_termino</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="271"><Inteligente Valor="false"/><Ligacoes PontaA="270" PontaB="259"/><Pontos><Ponto Left="152" Top="1203"/><Ponto Left="197" Top="1194"/></Pontos></Ligacao>
+<Atributo ID="272"><Bounds Left="59" Top="1214" Width="94" Height="14"/><Texto>duracao_horas</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="273"><Inteligente Valor="false"/><Ligacoes PontaA="272" PontaB="259"/><Pontos><Ponto Left="152" Top="1218"/><Ponto Left="197" Top="1203"/></Pontos></Ligacao>
+<Atributo ID="274"><Bounds Left="84" Top="1230" Width="69" Height="14"/><Texto>instrutor</Texto><Identificador Valor="false"/><Autosize Valor="true"/><DirecaoFromInspector Valor="1"/></Atributo>
+<Ligacao ID="275"><Inteligente Valor="false"/><Ligacoes PontaA="274" PontaB="259"/><Pontos><Ponto Left="152" Top="1234"/><Ponto Left="215" Top="1203"/></Pontos></Ligacao>
+<Relacionamento ID="276"><Bounds Left="394" Top="945" Width="104" Height="54"/><Texto>possui</Texto></Relacionamento>
+<Ligacao ID="277"><Inteligente Valor="false"/><Ligacoes PontaA="56" PontaB="276"/><Pontos><Ponto Left="611" Top="800"/><Ponto Left="463" Top="954"/></Pontos><Cardinalidade ID="278"><Bounds Left="553" Top="822" Width="28" Height="14"/><Card Valor="0"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="279"><Inteligente Valor="false"/><Ligacoes PontaA="259" PontaB="276"/><Pontos><Ponto Left="278" Top="1159"/><Ponto Left="429" Top="990"/></Pontos><Cardinalidade ID="280"><Bounds Left="283" Top="1147" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Relacionamento ID="281"><Bounds Left="387" Top="1269" Width="104" Height="54"/><Texto>baseia-se em</Texto></Relacionamento>
+<Ligacao ID="282"><Inteligente Valor="false"/><Ligacoes PontaA="259" PontaB="281"/><Pontos><Ponto Left="293" Top="1203"/><Ponto Left="415" Top="1281"/></Pontos><Cardinalidade ID="283"><Bounds Left="286" Top="1213" Width="28" Height="14"/><Card Valor="3"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+<Ligacao ID="284"><Inteligente Valor="false"/><Ligacoes PontaA="237" PontaB="281"/><Pontos><Ponto Left="571" Top="1296"/><Ponto Left="491" Top="1296"/></Pontos><Cardinalidade ID="285"><Bounds Left="541" Top="1278" Width="28" Height="14"/><Card Valor="1"/><TamanhoAutmatico Valor="true"/><MovimentacaoManual Valor="true"/></Cardinalidade></Ligacao>
+</DIAGRAMA>

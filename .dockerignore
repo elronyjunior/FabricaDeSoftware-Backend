@@ -1,0 +1,17 @@
+# Nada disso deve entrar na imagem Docker.
+# Segredos: as variáveis vão em tempo de execução (docker run --env-file .env).
+.env
+.env.*
+!.env.example
+serviceAccountKey.json
+
+# Dependências são instaladas dentro da imagem (npm ci).
+node_modules/
+
+# Coisas de desenvolvimento.
+.git/
+.github/
+coverage/
+tests/
+docs/
+*.md

@@ -1,0 +1,136 @@
+%% Figura 3 – Modelo Conceitual (Mermaid usa pé de galinha; a notação de Chen está nas versões draw.io e brModelo)
+%% Atributos dos relacionamentos N:N: utiliza(data_aprovacao) · contém(codigo_requisito, prioridade, data_aprovacao)
+%% aloca(custo_hora, data_alocacao, data_desalocacao) · participa(data_inicio, data_fim)
+erDiagram
+    USUARIO {
+        bigint id PK
+        varchar nome
+        varchar email
+        text senha
+        nivel_usuario nivel
+        varchar telefone
+    }
+    CONEXAO_GITHUB {
+        bigint github_user_id
+        varchar github_login
+        text access_token_enc
+        text scope
+        timestamptz conectado_em
+        timestamptz atualizado_em
+    }
+    LOG {
+        bigint id PK
+        varchar nome_tabela
+        varchar nome_campo
+        varchar chave_primaria_registro
+        varchar chave_secundaria_registro
+        varchar tipo_acao
+        text valor_antigo
+        text valor_novo
+        timestamptz data_hora
+    }
+    CLIENTE {
+        bigint id PK
+        varchar razao_social
+        varchar cnpj
+        varchar email
+        varchar telefone
+        varchar setor
+        varchar contato
+        timestamptz data_criacao
+    }
+    ENDERECO {
+        bigint id PK
+        varchar logradouro
+        varchar cep
+        varchar numero
+        varchar bairro
+        varchar cidade
+        varchar estado
+        varchar pais
+        text complemento
+    }
+    PROJETO {
+        bigint id PK
+        varchar nome_projeto
+        text descricao
+        varchar modelo_projeto
+        varchar metodologia
+        text escopo
+        date data_inicio
+        date data_final_previsto
+        date data_final
+        complexidade_projeto complexidade
+        numeric orcamento_estimado
+        timestamptz data_criacao
+        varchar tipo
+    }
+    TECNOLOGIA {
+        bigint id PK
+        varchar nome
+        varchar categoria
+        text descricao
+    }
+    REQUISITO {
+        bigint id PK
+        varchar tipo
+        text descricao
+        text observacoes
+    }
+    RECURSO {
+        bigint id PK
+        varchar nome
+        varchar tipo
+        boolean disponivel
+        text descricao
+        timestamptz data_criacao
+    }
+    CONTRIBUIDOR {
+        bigint id PK
+        varchar nome
+        varchar email
+        varchar telefone
+        varchar cargo
+        varchar empresa
+        boolean ativo
+    }
+    DOCUMENTO {
+        bigint id PK
+        varchar tipo
+        text descricao
+        text arquivo_url
+        varchar nome_do_arquivo
+        timestamptz data_criacao
+        timestamptz data_aprovacao
+        jsonb conteudo_json
+    }
+    TREINAMENTO {
+        bigint id PK
+        varchar nome
+        text descricao
+        varchar tipo_treinamento
+        timestamptz data_inicio
+        timestamptz data_termino
+        integer duracao_horas
+        varchar instrutor
+    }
+    TESTE {
+        bigint id PK
+        varchar nome
+        text descricao
+        varchar situacao
+    }
+    USUARIO ||--o| CONEXAO_GITHUB : possui
+    USUARIO |o--o{ LOG : registra
+    USUARIO ||--o{ PROJETO : cria
+    USUARIO |o--o{ PROJETO : "é responsável por"
+    CLIENTE ||--o{ PROJETO : solicita
+    ENDERECO |o--o{ CLIENTE : "localiza-se"
+    PROJETO }o--o{ TECNOLOGIA : utiliza
+    PROJETO }|--|{ REQUISITO : "contém"
+    PROJETO }o--o{ RECURSO : aloca
+    PROJETO }o--|{ CONTRIBUIDOR : participa
+    PROJETO ||--o{ DOCUMENTO : possui
+    PROJETO ||--o{ TREINAMENTO : possui
+    PROJETO ||--o{ TESTE : possui
+    DOCUMENTO |o--o{ TREINAMENTO : "baseia-se em"

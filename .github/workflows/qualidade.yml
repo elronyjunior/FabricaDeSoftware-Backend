@@ -1,0 +1,51 @@
+name: Qualidade
+
+# Checagens rápidas que não precisam de banco: sintaxe de todos os .js,
+# consistência do package-lock e se o .env.example documenta toda variável
+# de ambiente usada pelo código.
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Instalar dependências (falha se o package-lock estiver desatualizado)
+        run: npm ci
+
+      - name: Verificar sintaxe de todos os arquivos .js
+        run: npm run check
+
+      - name: Conferir se o .env.example documenta todas as variáveis
+        run: |
+          usadas=$(grep -rhoE "process\.env\.[A-Za-z_][A-Za-z0-9_]*|requireEnv\('[A-Za-z_][A-Za-z0-9_]*'\)" \
+                     --include='*.js' --exclude-dir=node_modules --exclude-dir=tests . \
+                   | sed -E "s/process\.env\.//; s/requireEnv\('//; s/'\)//" \
+                   | grep -vE '^(NODE_ENV)$' | sort -u)
+          faltando=""
+          for v in $usadas; do
+            grep -qE "^#? ?$v=" .env.example || faltando="$faltando $v"
+          done
+          if [ -n "$faltando" ]; then
+            echo "::error::Variáveis usadas no código mas ausentes no .env.example:$faltando"
+            exit 1
+          fi
+          echo "Todas as $(echo "$usadas" | wc -w) variáveis estão documentadas no .env.example."

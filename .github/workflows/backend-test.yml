@@ -5,6 +5,12 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
+
+# Um push novo no mesmo branch cancela a execução anterior que ainda estava rodando.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -59,5 +65,28 @@ jobs:
       - name: Aplicar schema no Postgres de teste
         run: npm run db:test:schema
 
-      - name: Rodar testes (unitários + integração)
-        run: npm test
+      - name: Rodar testes (unitários + integração) com cobertura
+        # --runInBand: as suítes de integração limpam o banco inteiro entre os
+        # testes (TRUNCATE ... CASCADE), então não podem rodar em paralelo.
+        run: npx jest --runInBand --coverage --coverageReporters=text-summary --coverageReporters=lcov --coverageReporters=json-summary
+
+      - name: Resumo da cobertura na página da execução
+        if: always()
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            node -e '
+              const t = require("./coverage/coverage-summary.json").total;
+              const l = ["## Cobertura de testes (backend)", "", "| Métrica | % |", "| --- | --- |"];
+              for (const k of ["lines", "statements", "functions", "branches"]) l.push(`| ${k} | ${t[k].pct}% |`);
+              console.log(l.join("\n"));
+            ' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Publicar relatório de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: coverage/
+          retention-days: 14
+          if-no-files-found: ignore

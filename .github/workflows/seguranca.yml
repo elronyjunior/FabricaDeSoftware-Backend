@@ -1,0 +1,53 @@
+name: Auditoria de dependências
+
+# Relatório das vulnerabilidades conhecidas nas dependências (npm audit).
+# É informativo: NÃO bloqueia o merge, porque hoje já existem alertas antigos
+# a tratar. O resumo aparece na página da execução e o JSON completo fica
+# como artefato.
+on:
+  push:
+    branches: [main]
+    paths: ['package.json', 'package-lock.json']
+  pull_request:
+    paths: ['package.json', 'package-lock.json']
+  schedule:
+    - cron: '0 11 * * 1'   # toda segunda-feira, 08:00 de Brasília
+  workflow_dispatch:
+
+jobs:
+  npm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rodar npm audit (dependências de produção)
+        run: npm audit --omit=dev --json > audit.json || true
+
+      - name: Resumo na página da execução
+        run: |
+          node -e '
+            const r = require("./audit.json");
+            const v = (r.metadata && r.metadata.vulnerabilities) || {};
+            const l = ["## Auditoria de dependências (npm audit)", "",
+                       "| Severidade | Quantidade |", "| --- | --- |"];
+            for (const s of ["critical", "high", "moderate", "low", "info"]) l.push(`| ${s} | ${v[s] || 0} |`);
+            const pac = Object.entries(r.vulnerabilities || {})
+              .filter(([, x]) => ["critical", "high"].includes(x.severity))
+              .map(([n, x]) => `- \`${n}\` (${x.severity})${x.fixAvailable ? " — correção disponível" : ""}`);
+            if (pac.length) l.push("", "### Pacotes com severidade alta ou crítica", ...pac);
+            l.push("", "Para corrigir localmente: `npm audit fix` (e rodar os testes depois).");
+            console.log(l.join("\n"));
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Guardar relatório completo
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit
+          path: audit.json
+          retention-days: 30

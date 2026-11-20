@@ -1,0 +1,185 @@
+%% Figura 4 – Modelo Lógico (gerado de db/schema.sql)
+erDiagram
+    clientes {
+        bigint id PK
+        varchar razao_social "(255)"
+        varchar cnpj "(18)"
+        varchar email "(255)"
+        varchar telefone "(20) NULL"
+        varchar setor "(100) NULL"
+        varchar contato "(255) NULL"
+        timestamptz data_criacao "NULL"
+        bigint endereco_id FK "NULL"
+    }
+    contribuidores {
+        bigint id PK
+        varchar nome "(255)"
+        varchar email "(255)"
+        varchar telefone "(20) NULL"
+        varchar cargo "(100) NULL"
+        varchar empresa "(255) NULL"
+        boolean ativo "NULL"
+    }
+    contribuidores_projeto {
+        bigint contribuidor_id PK, FK
+        bigint projeto_id PK, FK
+        date data_inicio
+        date data_fim "NULL"
+    }
+    documentos {
+        bigint id PK
+        varchar tipo "(100) NULL"
+        text descricao "NULL"
+        text arquivo_url
+        varchar nome_do_arquivo "(255)"
+        timestamptz data_criacao "NULL"
+        timestamptz data_aprovacao "NULL"
+        bigint projeto_id FK
+        bigint aprovado_por_id FK "NULL"
+        jsonb conteudo_json "NULL"
+    }
+    enderecos {
+        bigint id PK
+        varchar logradouro "(255)"
+        varchar cep "(9)"
+        varchar numero "(20) NULL"
+        varchar bairro "(100) NULL"
+        varchar cidade "(100)"
+        varchar estado "(2)"
+        varchar pais "(50)"
+        text complemento "NULL"
+    }
+    logs {
+        bigint id PK
+        varchar nome_tabela "(100)"
+        varchar nome_campo "(100) NULL"
+        varchar chave_primaria_registro "(255)"
+        varchar chave_secundaria_registro "(255) NULL"
+        varchar tipo_acao "(10)"
+        text valor_antigo "NULL"
+        text valor_novo "NULL"
+        timestamptz data_hora "NULL"
+        bigint modificado_por_id FK "NULL"
+    }
+    projetos {
+        bigint id PK
+        varchar nome_projeto "(255)"
+        text descricao "NULL"
+        varchar modelo_projeto "(100) NULL"
+        varchar metodologia "(100) NULL"
+        text escopo "NULL"
+        date data_inicio "NULL"
+        date data_final_previsto "NULL"
+        date data_final "NULL"
+        complexidade_projeto complexidade "NULL"
+        numeric orcamento_estimado "(18,2) NULL"
+        timestamptz data_criacao "NULL"
+        bigint cliente_id FK
+        bigint responsavel_id FK "NULL"
+        bigint criado_por_id FK
+        varchar tipo "(50) NULL"
+    }
+    recursos {
+        bigint id PK
+        varchar nome "(255)"
+        varchar tipo "(100)"
+        boolean disponivel "NULL"
+        text descricao "NULL"
+        timestamptz data_criacao "NULL"
+        bigint criado_por_id FK "NULL"
+    }
+    recursos_projeto {
+        bigint recurso_id PK, FK
+        bigint projeto_id PK, FK
+        numeric custo_hora "(10,2) NULL"
+        date data_alocacao
+        date data_desalocacao "NULL"
+    }
+    requisitos {
+        bigint id PK
+        varchar tipo "(100)"
+        text descricao
+        text observacoes "NULL"
+    }
+    requisitos_projeto {
+        bigint requisito_id PK, FK
+        bigint projeto_id PK, FK
+        varchar codigo_requisito "(50) NULL"
+        prioridade_requisito prioridade "NULL"
+        timestamptz data_aprovacao "NULL"
+        bigint aprovado_por_id FK "NULL"
+        bigint criado_por_id FK "NULL"
+    }
+    tecnologias {
+        bigint id PK
+        varchar nome "(255)"
+        varchar categoria "(100) NULL"
+        text descricao "NULL"
+    }
+    tecnologias_projeto {
+        bigint tecnologia_id PK, FK
+        bigint projeto_id PK, FK
+        timestamptz data_aprovacao "NULL"
+        bigint aprovado_por_id FK "NULL"
+    }
+    testes {
+        bigint id PK
+        varchar nome "(255)"
+        text descricao "NULL"
+        bigint projeto_id FK
+        varchar situacao "(50) NULL"
+    }
+    treinamentos {
+        bigint id PK
+        varchar nome "(255)"
+        text descricao "NULL"
+        varchar tipo_treinamento "(100) NULL"
+        timestamptz data_inicio "NULL"
+        timestamptz data_termino "NULL"
+        integer duracao_horas "NULL"
+        varchar instrutor "(255) NULL"
+        bigint projeto_id FK
+        bigint criado_por_id FK "NULL"
+        bigint documento_id FK "NULL"
+    }
+    usuarios {
+        bigint id PK
+        varchar nome "(255)"
+        varchar email "(255)"
+        text senha "NULL"
+        nivel_usuario nivel
+        varchar telefone "(20) NULL"
+    }
+    usuario_github {
+        bigint usuario_id PK, FK
+        bigint github_user_id
+        varchar github_login "(255)"
+        text access_token_enc
+        text scope "NULL"
+        timestamptz conectado_em
+        timestamptz atualizado_em
+    }
+    usuarios ||--o| usuario_github : "usuario_id"
+    enderecos |o--o{ clientes : "endereco_id"
+    contribuidores ||--o{ contribuidores_projeto : "contribuidor_id"
+    projetos ||--o{ contribuidores_projeto : "projeto_id"
+    projetos ||--o{ documentos : "projeto_id"
+    usuarios |o--o{ documentos : "aprovado_por_id"
+    usuarios |o--o{ logs : "modificado_por_id"
+    clientes ||--o{ projetos : "cliente_id"
+    usuarios |o--o{ projetos : "responsavel_id"
+    usuarios ||--o{ projetos : "criado_por_id"
+    usuarios |o--o{ recursos : "criado_por_id"
+    recursos ||--o{ recursos_projeto : "recurso_id"
+    projetos ||--o{ recursos_projeto : "projeto_id"
+    requisitos ||--o{ requisitos_projeto : "requisito_id"
+    projetos ||--o{ requisitos_projeto : "projeto_id"
+    usuarios |o--o{ requisitos_projeto : "aprovado_por_id"
+    usuarios |o--o{ requisitos_projeto : "criado_por_id"
+    tecnologias ||--o{ tecnologias_projeto : "tecnologia_id"
+    projetos ||--o{ tecnologias_projeto : "projeto_id"
+    usuarios |o--o{ tecnologias_projeto : "aprovado_por_id"
+    projetos ||--o{ testes : "projeto_id"
+    projetos ||--o{ treinamentos : "projeto_id"
+    usuarios |o--o{ treinamentos : "criado_por_id"
+    documentos |o--o{ treinamentos : "documento_id"

@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "db:test:schema": "node db/apply-schema.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
+    "check": "node scripts/verificar-sintaxe.js",
+    "db:schema": "node -r dotenv/config db/apply-schema.js",
+    "db:test:schema": "node db/apply-schema.js",
+    "db:test:schema:local": "node -r dotenv/config db/apply-schema.js dotenv_config_path=.env.test"
   },
   "keywords": [],
   "author": "",

@@ -5,6 +5,10 @@ node_modules/
 .env
 .env.*
 !.env.*.example
+!.env.example
+
+# Relatórios de cobertura de testes (gerados por `npm run test:coverage`).
+coverage/
 serviceAccountKey.json
 
 # Sistema operacional / editores.
