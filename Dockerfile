@@ -1,5 +1,5 @@
 # Mesma versão de Node usada no CI (.github/workflows/backend-test.yml).
-FROM node:20-alpine
+FROM node:26-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 
